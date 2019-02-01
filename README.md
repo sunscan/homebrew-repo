@@ -2,7 +2,7 @@
 
 Casks and formulae for [Homebrew](https://github.com/Homebrew/brew).
 
-## Usage
+## Usage
 
 Add this tap to the list of your `homebrew` tap sources:
 ```
