@@ -1,6 +1,6 @@
 cask 'burp-suite-pro' do
-  version '2020.11'
-  sha256 '2ef05218ec3b4dad92d59f7859aecbec5131e073db44484e6f4f1a1a60358113'
+  version '2021.2.1'
+  sha256 '68f3807235060122270638abe307e5cafb38a0ffe93d63349767c49c79bb69c0'
 
   url "file://#{ENV['HOME']}/Downloads/burpsuite_pro_macos_v#{version.dots_to_underscores}.dmg"
   appcast 'http://releases.portswigger.net/'
