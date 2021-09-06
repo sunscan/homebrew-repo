@@ -11,10 +11,10 @@ class DosboxDebug < Formula
   end
 
   depends_on "libpng"
+  depends_on "ncurses"
   depends_on "sdl"
   depends_on "sdl_net"
   depends_on "sdl_sound"
-  depends_on "ncurses"
 
   def install
     args = %W[
