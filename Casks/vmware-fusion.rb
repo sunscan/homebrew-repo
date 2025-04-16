@@ -1,25 +1,20 @@
 cask "vmware-fusion" do
-  version "13.5.2,23775688"
-  sha256 "baaa201c797af8e32a2ec3ae78c69bfedbe5c5c7960c3673885bd84e42ddfbb9"
+  version "13.6.3,24585314"
+  sha256 "4e68575577fcd7312d151d7eec8a7c4a67500b4310251bdb48151f56cfd8f44f"
 
-  url "file://#{ENV['HOME']}/Downloads/VMware-Fusion-#{version.csv.first}-#{version.csv.second}_universal.dmg"
+  url "https://softwareupdate.vmware.com/cds/vmw-desktop/fusion/#{version.csv.first}/#{version.csv.second}/universal/core/com.vmware.fusion.zip.tar"
   name "VMware Fusion"
   desc "Create, manage, and run virtual machines"
-  homepage "https://www.vmware.com/products/fusion.html"
+  homepage "https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion"
 
-  #livecheck do
-  #  url "https://softwareupdate.vmware.com/cds/vmw-desktop/fusion-universal.xml"
-  #  regex(%r{fusion/(\d+(?:\.\d+)+/\d+)}i)
-  #  strategy :page_match do |page, regex|
-  #    page.scan(regex).map { |match| match&.first&.tr("/", ",") }
-  #  end
-  #end
+  disable! date: "2025-03-24", because: "download requires a Broadcom Profile"
 
   auto_updates true
   conflicts_with cask: "vmware-fusion@preview"
-  depends_on macos: ">= :monterey"
+  depends_on macos: ">= :ventura"
+  container nested: "com.vmware.fusion.zip"
 
-  app "VMware Fusion.app"
+  app "#{staged_path}/payload/VMware Fusion.app"
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vkd/bin/vctl"
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vmnet-bridge"
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vmnet-cfgcli"
@@ -28,6 +23,7 @@ cask "vmware-fusion" do
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vmnet-natd"
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vmnet-netifup"
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vmnet-sniffer"
+  binary "#{appdir}/VMware Fusion.app/Contents/Library/vmcli"
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vmrest"
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vmrun"
   binary "#{appdir}/VMware Fusion.app/Contents/Library/vmss2core"
@@ -49,8 +45,9 @@ cask "vmware-fusion" do
 
   postflight do
     system_command "#{appdir}/VMware Fusion.app/Contents/Library/Initialize VMware Fusion.tool",
-                   args: ["set"],
-                   sudo: true
+                   args:         ["set"],
+                   sudo:         true,
+                   sudo_as_root: true
   end
 
   uninstall_preflight do
